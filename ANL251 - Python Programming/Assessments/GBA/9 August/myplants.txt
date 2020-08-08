@@ -31,14 +31,20 @@ Direct sun might burn Leaves
 Water regularly and never allow soil to dry out
 Soil must be loose and well draining
 
-fairuztest
-2020-08-02 16:33:06
-info 1
-info 2
-
-fairuz
-2020-08-02 16:35:56
+Fairuzz
+2020-08-08 11:38:45
 information 1
-info 2
-info3
+informaiton 2
+
+Fairuz Fairuz Fairuz
+2020-08-08 11:39:10
+information 1
+information 2
+information 3
+
+Fairuz
+2020-08-08 17:45:57
+information 1
+information 2
+information 3
 
