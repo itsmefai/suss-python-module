@@ -10,7 +10,6 @@
 # How to handle plant with no information? (When deleting information)
 
 from datetime import datetime
-import os
 
 class Plant:
     """Plant class is used to hold plant object data.
@@ -568,6 +567,8 @@ class Plant:
 
 
 def main():
+    """This method prints out the main menu
+    """
 
     # Main menu
     print('----------------------------------------------------------------------')
@@ -628,7 +629,7 @@ def main():
 
             main()
 
-start = Plant()
+start = Plant() # creates the plant object before starting the program
 print("\033c") # clear the terminal console before starting the program
 
 if __name__ == "__main__":
