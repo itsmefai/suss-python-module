@@ -40,13 +40,14 @@ class Plant:
         Returns: Data of text file in python dict format.
         """
 
-        f = open(self.filepath, "r")
+        f = open(self.filepath, "r") # open the file with read only access
         contents = f.read()
 
         # Creating a dictionary to store the plant's information
         plant_dict = {}
         plant_list = []
 
+        # for every content, append pant info to plant dictionary
         for i in contents.split('\n\n'):
             plant_info = i.split('\n')
             plant_name = plant_info[0]
@@ -91,9 +92,9 @@ class Plant:
             print('|                 Plant Informations                  |')
             print('-------------------------------------------------------')
 
-
             if choice in ['1', '2', '0']:
-
+                
+                # view by Alphabetical Order
                 if choice == '1':
                     # sorting the values by their names uppercased. This will handle plant names with lowercases.
                     # returns a list of tuples
@@ -109,8 +110,8 @@ class Plant:
                     print(f"There are {len(keys)} records in total.")
                     print()
                     print('-------------------------------------------------------')
-
                     print()
+
                     for i in keys:
                         for k, v in self.data[i].items():
                             if k != 'Information':
@@ -126,6 +127,7 @@ class Plant:
                         print('-------------------------------------------------------')
                         print()
 
+                # view by Last Updated Date
                 elif choice == '2':
                     # sorting the values by their names 
                     # returns a list of tuples
@@ -158,6 +160,7 @@ class Plant:
                         print('-------------------------------------------------------')
                         print()
 
+                # return back to main menu
                 elif choice == '0':
                     print("\033c") # clear the terminal console
                     break
@@ -165,6 +168,7 @@ class Plant:
                 # break out of the while loop
                 break
             
+            # if invalid input is provided
             else:
                 print()
                 print('Invalid input! Please try again.')
@@ -312,7 +316,7 @@ class Plant:
         
     def search(self):
         """This method prints out the plant data if the searched name exists in the plant dictionary and provide options to manipulate the data. 
-        If plant not found, user will be given a choice to add new plant.
+        If plant not found, an option will be given to add the searched plant.
         """
 
         # print out Search Menu
@@ -408,7 +412,8 @@ class Plant:
 
                         elif number == '0':
                             break
-
+                        
+                        # if invalid input is provided
                         else:
                             print()
                             print('Invalid input! Please try again.')
@@ -430,7 +435,7 @@ class Plant:
                     print("\033c")
                     break
 
-                # if user enters an invalid input
+                # if invalid input is provided
                 else:
                     print()
                     print('Invalid input. Try again.')
@@ -448,9 +453,12 @@ class Plant:
                 if choice == '1':
                     self.add_plant(name)
                     break
+
                 elif choice == '2':
                     print('Exiting...')
                     break
+
+                # if invalid input is provided
                 else:
                     print()
                     print('Invalid input. Try again.')
@@ -623,6 +631,8 @@ def main():
 
             # Break out of the while Loop
             break
+
+        # if invalid input is provided
         else:
             print('Invalid input! Please try again.')
             print()
