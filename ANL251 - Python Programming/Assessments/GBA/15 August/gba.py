@@ -1,10 +1,13 @@
-# Updated as of 9 Aug 2020
+# Project Code: ANL251
+
 # Team members:
 # 1. MUHAMMAD AL-FAIRUZ BIN MOHD BASER J2010990
-# 2.
-# 3.
-# 4. 
+# 2. DARYL IAN NEO ZUO YUAN Z1771169
+# 3. ALVIN LU TZE CHINN Z1970653
+# 4.    
 # 5. 
+
+# How to handle plant with no information? (When deleting information)
 
 from datetime import datetime
 import os
