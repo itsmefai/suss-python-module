@@ -4,8 +4,8 @@
 # 1. MUHAMMAD AL-FAIRUZ BIN MOHD BASER J2010990
 # 2. DARYL IAN NEO ZUO YUAN Z1771169
 # 3. ALVIN LU TZE CHINN Z1970653
-# 4.    
-# 5. 
+# 4. DAWN TAN W1870934
+# 5. ELIJAH EZEKIEL ANAND Y1910037
 
 # How to handle plant with no information? (When deleting information)
 
@@ -13,13 +13,32 @@ from datetime import datetime
 import os
 
 class Plant:
+    """Plant class is used to hold plant object data.
+
+    Methods:
+        __init__(self, filepath = 'myplants.txt')
+        load_data()
+        view_all()
+        add_plant(, name = '')
+        search()
+        add_information(name)
+        delete_record(name)
+        edit_information(name, number)
+        save_output()
+    """
+
     def __init__(self, filepath = 'myplants.txt'):
+        """Plant Class Constructor to initialize the object and reads in the plant data
+
+        Input Arguments: filepath must be a string
+        """
         self.filepath = filepath
         self.data = self.load_data()
     
     def load_data(self):
-        """
-        reads the txt file and converts it to dictionary
+        """This method reads in a text file and assign the data to a python dictionary.
+
+        Returns: Data of text file in python dict format.
         """
 
         f = open(self.filepath, "r")
@@ -46,6 +65,8 @@ class Plant:
         f.close()
         
     def view_all(self):
+        """This method displays the plant data by printing them out either by Alphabetical order or Last Updated Date.
+        """
 
         # print out view all plant menu
         print('----------------------------------------------------------------------')
@@ -152,7 +173,12 @@ class Plant:
                 continue
 
     def add_plant(self, name = ''):
+        """This method adds a plant data to the plant dictionary based on the user input.
+
+        Input Argument: name must be a string. By default, name is empty. 
+        """
         
+        # if name is not provided -- when user add plant from main menu
         if name == '':
             # print out the add plant menu
             print('----------------------------------------------------------------------')
@@ -230,6 +256,7 @@ class Plant:
                 # provide user with confirmation
                 print(f"Plant '{name}' has been added.")
 
+        # if name is provided -- from the search menu
         else:
             name_lower = name.lower()
             plants = list(self.data.keys())
@@ -285,15 +312,8 @@ class Plant:
             print(f"Plant '{name}' has been added.")
         
     def search(self):
-        """
-        If plant exist:
-
-        (1) option for the user to add new information
-        (2) option for the user to delete any information
-        (3) option for the user to delete the whole record about the houseplant
-        
-        If plant does not exist:
-        (1) option for the user to add new plant
+        """This method prints out the plant data if the searched name exists in the plant dictionary and provide options to manipulate the data. 
+        If plant not found, user will be given a choice to add new plant.
         """
 
         # print out Search Menu
@@ -375,6 +395,7 @@ class Plant:
                     print()
                     avail_options = [i for i in range(1, len(plant_information) + 1)] # getting the index values
 
+                    # loops until user provides a valid input
                     while True:
                         
                         number = input(f"Please enter {str(avail_options).strip('[]')} or 0: ") # printing the options as a string
@@ -437,6 +458,10 @@ class Plant:
                     continue
 
     def add_information(self, name):
+        """This method add additional information to a specified plant data. 
+
+        Input Arguments: name must be a string.
+        """
 
         name = name.lower()
         
@@ -487,8 +512,9 @@ class Plant:
                 break
 
     def delete_record(self, name):
-        """ 
-        A function to delete plant records
+        """This method deletes/removes a plant data from the plant dictionary.
+
+        Input Arguments: name must be a string.
         """
         
         # removing a key from dictionary based on the plant name provided 
@@ -497,6 +523,10 @@ class Plant:
         print(f'Plant "{name}"" has been deleted.')
 
     def edit_information(self, name, number):
+        """This method deletes/removes a plant information based on the plant name and the index value of the information.
+
+        Input Arguments: name must be a string and number must be an interger.
+        """
     
         # takes in the plant name and the information ID to be deleted
 
@@ -511,6 +541,8 @@ class Plant:
         print('Returning to Main Menu...')
 
     def save_output(self):
+        """This method open or create a text file and uploads the data from the plant dictionary onto the text file. 
+        """
 
         # open the file with write access. If file do not exist, it will create a new one
         f = open("myplants.txt", "w")
@@ -544,7 +576,6 @@ def main():
     print()
 
     print('What would you like to do?')
-
     print()
     print(' (1) View All Plants')
     print(' (2) Add Plant')
@@ -602,4 +633,3 @@ print("\033c") # clear the terminal console before starting the program
 
 if __name__ == "__main__":
     main()
-
