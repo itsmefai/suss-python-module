@@ -33,7 +33,7 @@ class Plant:
             plant_list.append(plant_info)
 
         for info in plant_list[:-1]:
-            plant_dict[info[0]] = {'Name': info[0],
+            plant_dict[info[0].lower()] = {'Name': info[0], # save plant key as lowercase
                                     'Last Updated': info[1],
                                     'Information': info[2:]}
         
@@ -44,14 +44,15 @@ class Plant:
         
     def view_all(self):
 
-        print("How would you like to view it?")
-        print("""
-        (1) Alphabetical Order
-        (2) Latest Revision Time
-        """)
-
         # Implement a while loop to ensure that user enters a valid input. Else, prompt the user to enter again.
         while True:
+            
+            print("How would you like to view it?")
+            print("""
+            (1) Alphabetical Order
+            (2) Latest Revision Time
+            """)
+
             choice = input('Choice (1 or 2): ')
             print("\033c")
             print('-------------------------------------------------------')
@@ -130,11 +131,12 @@ class Plant:
 
     def add_plant(self, name):
 
+        name_lower = name.lower()
         plants = list(self.data.keys())
-        plants_lower = [i.lower() for i in plants]
+        #  plants_lower = [i.lower() for i in plants]
 
         # check if plant already exist
-        if name in plants_lower:
+        if name_lower in plants:
             print()
             print('----------------------------------------------------------------------')
             print('|                 Message: Plant name already exist!                 |')
@@ -183,9 +185,8 @@ class Plant:
                     print("Stop Editing ...")
                     break
             
-            # store the name of the plant in uppercase using python built-in title() function
-            # name_upper = name.title()
-            self.data[name] = {'Name': name,
+            # store key as a lowercase and name as per user input
+            self.data[name_lower] = {'Name': name,
                             'Last Updated': dt_string,
                             'Information': plant_info}
 
@@ -202,13 +203,16 @@ class Plant:
         If plant does not exist:
         (1) option for the user to add new plant
         """
-        
+
         plants = list(self.data.keys())
         # plants_lower = [i.lower() for i in plants]
         plant_information = [] # variable to hold all the plant's information for easy retrieval later
         
+        # convert input into lowercase
+        name_lower = name.lower()
+
         # If searched name in database, prints out all the plant's information
-        if name in plants:
+        if name_lower in plants:
             # name = name.title()
 
             print('-------------------------------------------------------')
@@ -217,7 +221,7 @@ class Plant:
             print()
 
             # if name is found
-            for k, v in self.data[name].items():
+            for k, v in self.data[name_lower].items():
                 if k != 'Information':
                     print(f"{k}: {v}")
                 else:
@@ -247,7 +251,7 @@ class Plant:
 
                 # if user decides to add new information
                 if choice == '1':
-                    self.add_information(name)
+                    self.add_information(name_lower)
                     break
                 
                 # if user chooses to delete information
@@ -289,7 +293,7 @@ class Plant:
                     print()
 
                     # passing the plant name to the delete_records function
-                    self.delete_record(name)
+                    self.delete_record(name_lower)
                     break
 
                 # if user chooses to return to main menu
@@ -315,7 +319,6 @@ class Plant:
                 choice = input('Would you like to add the flower? (Y/N): ').lower()
                 if choice == 'y':
                     self.add_plant(name)
-                    print('Plant Added.')
                     break
                 elif choice == 'n':
                     print('Exiting...')
@@ -327,6 +330,8 @@ class Plant:
 
     def add_information(self, name):
 
+        name = name.lower()
+        
         # accessing the plant information list
         plant_info = self.data[name]['Information']
 
@@ -484,6 +489,4 @@ print("\033c") # clear the terminal console before starting the program
 
 if __name__ == "__main__":
     main()
-
-
 

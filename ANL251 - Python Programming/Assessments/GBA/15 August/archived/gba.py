@@ -33,7 +33,7 @@ class Plant:
             plant_list.append(plant_info)
 
         for info in plant_list[:-1]:
-            plant_dict[info[0]] = {'Name': info[0],
+            plant_dict[info[0].lower()] = {'Name': info[0], # save plant key as lowercase
                                     'Last Updated': info[1],
                                     'Information': info[2:]}
         
@@ -44,22 +44,26 @@ class Plant:
         
     def view_all(self):
 
-        print("How would you like to view it?")
-        print("""
-        (1) Alphabetical Order
-        (2) Latest Revision Time
-        """)
-
         # Implement a while loop to ensure that user enters a valid input. Else, prompt the user to enter again.
         while True:
-            choice = input('Choice (1 or 2): ')
+            
+            # display view all menu
+            print("How would you like to view it?")
+            print()
+            print(' (1) Alphabetical Order')
+            print(' (2) Latest Revision Time')
+            print()
+            print(' (0) Return to Main Menu')
+            print()
+
+            choice = input('Please enter 1, 2 or 0: ')
             print("\033c")
             print('-------------------------------------------------------')
-            print('|                 Plant Information                   |')
+            print('|                 Plant Informations                  |')
             print('-------------------------------------------------------')
 
 
-            if choice in ['1', '2']:
+            if choice in ['1', '2', '0']:
                 if choice == '1':
                     # sorting the values by their names uppercased. This will handle plant names with lowercases.
                     # returns a list of tuples
@@ -112,6 +116,10 @@ class Plant:
                         print('-------------------------------------------------------')
                         print()
 
+                elif choice == '0':
+                    print("\033c") # clear the terminal console
+                    break
+
                 # print out the total number of records
                 print(f"There are {len(keys)} records in total.")
                 print()
@@ -120,8 +128,6 @@ class Plant:
                 # break out of the while loop
                 break
             
-            
-
             else:
                 print()
                 print('Invalid input! Please try again.')
@@ -130,17 +136,18 @@ class Plant:
 
     def add_plant(self, name):
 
+        name_lower = name.lower()
         plants = list(self.data.keys())
-        plants_lower = [i.lower() for i in plants]
+        #  plants_lower = [i.lower() for i in plants]
 
         # check if plant already exist
-        if name in plants_lower:
+        if name_lower in plants:
             print()
             print('----------------------------------------------------------------------')
             print('|                 Message: Plant name already exist!                 |')
             print('----------------------------------------------------------------------')
             print()
-            print('Returning to main menu...')
+            print('Returning to Main Menu...')
 
         # If plant does not exist
         else: 
@@ -152,7 +159,7 @@ class Plant:
 
             plant_info = []
 
-            # Counter for when adding information for the flower
+            # Counter for when adding information for the plant
             count = 1
 
             # printing out the information instruction menu
@@ -177,19 +184,16 @@ class Plant:
                     count +=1 
                     continue
                 else:
-                    #we're happy with the value given.
-                    #we're ready to exit the loop.
-                    print()
-                    print("Stop Editing ...")
+                    #we're happy with the value given and ready to exit the loop.
+                    print("\033c") # clear terminal console
                     break
             
-            # store the name of the plant in uppercase using python built-in title() function
-            # name_upper = name.title()
-            self.data[name] = {'Name': name,
+            # store key as a lowercase and name as per user input
+            self.data[name_lower] = {'Name': name,
                             'Last Updated': dt_string,
                             'Information': plant_info}
 
-            print('Plant added.')
+            print(f"Plant '{name}' has been added.")
         
     def search(self, name):
         """
@@ -202,13 +206,16 @@ class Plant:
         If plant does not exist:
         (1) option for the user to add new plant
         """
-        
+
         plants = list(self.data.keys())
         # plants_lower = [i.lower() for i in plants]
         plant_information = [] # variable to hold all the plant's information for easy retrieval later
         
+        # convert input into lowercase
+        name_lower = name.lower()
+
         # If searched name in database, prints out all the plant's information
-        if name in plants:
+        if name_lower in plants:
             # name = name.title()
 
             print('-------------------------------------------------------')
@@ -217,7 +224,7 @@ class Plant:
             print()
 
             # if name is found
-            for k, v in self.data[name].items():
+            for k, v in self.data[name_lower].items():
                 if k != 'Information':
                     print(f"{k}: {v}")
                 else:
@@ -231,23 +238,24 @@ class Plant:
             print()
             print('------------------------------------------------------')
 
+            print()
+            print("There are 3 options for you to choose from: ")
+            print()
+            print(' (1) Add new information')
+            print(' (2) Delete plant information')
+            print(' (3) Delete plant record')
+            print()
+            print(' (0) Return to Main Menu')
+            print()
+
             # Then, promt user if they would like to perform any of the 3 actions to add new information, delete information or delete the entire record
             while True:
-                print()
-                print("There are 3 options for you to choose from: ")
-                print()
-                print('     (1) Add new information')
-                print('     (2) Delete plant information')
-                print('     (3) Delete plant record')
-                print()
-                print('     (4) Return to main menu')
-                print()
                 
-                choice = input("What would you like to do? Enter 1, 2, 3 or 4: ")
+                choice = input("What would you like to do? Please enter 1, 2, 3 or 0: ")
 
                 # if user decides to add new information
                 if choice == '1':
-                    self.add_information(name)
+                    self.add_information(name_lower)
                     break
                 
                 # if user chooses to delete information
@@ -262,12 +270,15 @@ class Plant:
                     for info in plant_information:
                         print(info)
 
+                    # Option for user to go back to Main Menu
+                    print()
+                    print(" (0) Return to Main Menu")
                     print()
                     avail_options = [i for i in range(1, len(plant_information) + 1)] # getting the index values
 
                     while True:
                         
-                        number = input(f"Please enter your choice ({str(avail_options).strip('[]')[:-1]}or {str(avail_options).strip('[]')[-1]}): ") # printing the options as a string
+                        number = input(f"Please enter your choice ({str(avail_options).strip('[]')} or 0): ") # printing the options as a string
 
                         if number in str(avail_options):
                             number = int(number) # convert string into int
@@ -276,7 +287,11 @@ class Plant:
                             self.edit_information(name, number-1) # minus 1 as index always starts at 0
                             break
 
+                        elif number == '0':
+                            break
+
                         else:
+                            print()
                             print('Invalid input! Please try again.')
                             continue                    
                     
@@ -285,39 +300,36 @@ class Plant:
                 # if user chooses to delete the entire record
                 elif choice == '3':
                     print()
-                    print('Deleting entire record')
-                    print()
+                    print('Deleting entire record...')
 
                     # passing the plant name to the delete_records function
-                    self.delete_record(name)
+                    self.delete_record(name_lower)
                     break
 
-                # if user chooses to return to main menu
-                elif choice == '4':
-                    print()
-                    print("Returning to main menu...")
-                    print()
+                # if user chooses to return to Main Menu
+                elif choice == '0':
+                    print("\033c")
                     break
 
                 # if user enters an invalid input
                 else:
+                    print()
                     print('Invalid input. Try again.')
+                    print()
                     continue
 
         else:
             print('----------------------------------------------------------------------')
-            print('|                     Message: Flower not found!                     |')
+            print('|                     Message: Plant not found!                     |')
             print('----------------------------------------------------------------------')
             print()
             
             while True:
-                # convert the string input to lowercase 
-                choice = input('Would you like to add the flower? (Y/N): ').lower()
-                if choice == 'y':
+                choice = input("Would you like to add the Plant? (1 = Yes, 2 = No)")
+                if choice == '1':
                     self.add_plant(name)
-                    print('Plant Added.')
                     break
-                elif choice == 'n':
+                elif choice == '2':
                     print('Exiting...')
                     break
                 else:
@@ -327,6 +339,8 @@ class Plant:
 
     def add_information(self, name):
 
+        name = name.lower()
+        
         # accessing the plant information list
         plant_info = self.data[name]['Information']
 
@@ -391,7 +405,7 @@ class Plant:
                     for info in v:
                         f.write(f"{info}\n")
                         
-            # add an additional line of space between each flower data            
+            # add an additional line of space between each Plant data            
             f.write("\n")
         
         f.close()
@@ -404,15 +418,13 @@ class Plant:
         
         # removing a key from dictionary based on the plant name provided 
         del self.data[name]
-        print()
-        print('----------------------------------------------------------------------')
-        print(f'|              Message: Plant {name} has been deleted.              |')
-        print('----------------------------------------------------------------------')
+        print("\033c") # clear teminal output
+        print(f'Plant "{name}"" has been deleted.')
 
     def edit_information(self, name, number):
         # takes in the plant name and the information ID to be deleted
 
-        # deleting the chosen informtion from the plant data
+        # deleting the chosen information from the plant data
         del self.data[name]['Information'][number]
         print()
         print('----------------------------------------------------------------------')
@@ -424,17 +436,18 @@ def main():
 
     # Main menu
     print('What would you like to do?')
-    print('''
-    (1) View All Plants
-    (2) Add Plant
-    (3) Search Plant
 
-    (4) Exit
-    ''')
+    print()
+    print(' (1) View All Plants')
+    print(' (2) Add Plant')
+    print(' (3) Search Plant')
+    print()
+    print(' (4) Exit')
+    print()
 
     while True:
         choice = input('Please enter 1, 2, 3 or 4: ')
-        print("\033c")
+        print("\033c") # clear terminal console
         print()
 
         if choice in ['1', '2', '3', '4']:
@@ -444,7 +457,7 @@ def main():
                 start.view_all()
                 print()
 
-                # Once the view all function has successfully been executed, go back to the main menu
+                # Once the view all function has successfully been executed, go back to the Main Menu
                 main()
 
             # if user decides to add a plant
@@ -453,7 +466,7 @@ def main():
                 start.add_plant(plant_name)
                 print()
 
-                # go back to the main menu
+                # go back to the Main Menu
                 main()
 
             # if user decides to search for a plant
@@ -463,7 +476,7 @@ def main():
                 start.search(plant_name)
                 print()
 
-                # go back to the main menu
+                # go back to the Main Menu
                 main()
 
             elif choice == '4':
@@ -484,6 +497,4 @@ print("\033c") # clear the terminal console before starting the program
 
 if __name__ == "__main__":
     main()
-
-
 
